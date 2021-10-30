@@ -11,12 +11,12 @@ export class HttpService {
   constructor(private http: HttpClient) { }
   
   GetAllTickers(){
-    return this.http.get<Coin[]>("api/v2/tickers").pipe(first(), map(res=> {
+    return this.http.get<Coin[]>("https://api.wazirx.com/api/v2/tickers").pipe(first(), map(res=> {
       return Object.values(res)
     }));
   }
 
   SendMessage(text: string){
-    this.http.get("sendMessage?chat_id=-1001711739464&text="+text+"&parse_mode=html").pipe(first()).subscribe();
+    this.http.get("https://api.telegram.org/bot2086619820:AAHEc_MvMtL4WRNKFwWa7oZD_jPFq7HBpC4/sendMessage?chat_id=-1001711739464&text="+text+"&parse_mode=html").pipe(first()).subscribe();
   }
 }
