@@ -1,0 +1,8 @@
+{
+    "/api/*": {
+        "target": "https://api.wazirx.com",
+        "secure": true,
+        "changeOrigin" : true
+    }
+
+}
