@@ -1,0 +1,13 @@
+{
+    "/api/*": {
+        "target": "https://api.wazirx.com",
+        "secure": true,
+        "changeOrigin" : true
+    },
+    "/sendMessage/*" :{
+        "target" :"https://api.telegram.org/bot2086619820:AAHEc_MvMtL4WRNKFwWa7oZD_jPFq7HBpC4/",
+        "secure" : true,
+        "changeOrigin" : true
+    }
+
+}
