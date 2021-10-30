@@ -17,6 +17,8 @@ export class HttpService {
   }
 
   SendMessage(text: string){
-    this.http.get("sendMessage?chat_id=-1001711739464&text="+text+"&parse_mode=html").pipe(first()).subscribe();
+    let headers = new HttpHeaders();
+    headers.append("Access-Control-Allow-Origin", "*");
+    this.http.get("sendMessage?chat_id=-1001711739464&text="+text+"&parse_mode=html", {headers : headers}).pipe(first()).subscribe();
   }
 }
