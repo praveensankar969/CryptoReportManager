@@ -10,7 +10,7 @@ import { takeWhile } from 'rxjs/operators';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
+  title:string = "Crypto"
   priceDetailsHistory : Coin[]=[];
   priceDetails: Coin[] = [];
   constructor(private service: HttpService){}
@@ -41,7 +41,7 @@ export class AppComponent {
   Compare(prevValue:Coin[], currentValue: Coin[]){
     for(let i=0; i<prevValue.length;i++){
       if(parseInt(currentValue[i].last) > parseInt(prevValue[i].last)){
-        let change = (parseInt(currentValue[i].last)-parseInt(prevValue[i].last))/100;
+        let change = ((parseInt(currentValue[i].last)-parseInt(prevValue[i].last))/parseInt(prevValue[i].last))*100;
         if(change > 5){
           let message="";
           if(change >= 10){

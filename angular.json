@@ -74,7 +74,7 @@
               "browserTarget": "MarketReporter:build:development"
             }
           },
-          "defaultConfiguration": "development",
+          "defaultConfiguration": "production",
           "options": {
             "proxyConfig": "proxy.conf.json"
           }
