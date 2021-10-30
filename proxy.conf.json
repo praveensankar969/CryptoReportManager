@@ -1,11 +1,15 @@
 {
     "/api/*": {
         "target": "https://api.wazirx.com",
-        "secure": true
+        "secure": true,
+        "changeOrigin" : true,
+        "pathRewrite": { "^/api": "" }
     },
     "/sendMessage/*" :{
         "target" :"https://api.telegram.org/bot2086619820:AAHEc_MvMtL4WRNKFwWa7oZD_jPFq7HBpC4/",
-        "secure" : true
+        "secure" : true,
+        "changeOrigin" : true,
+        "pathRewrite": { "^/sendMessage": "" }
     }
 
 }
