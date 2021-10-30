@@ -12,15 +12,15 @@ export class HttpService {
   
   GetAllTickers(){
     let headers = new HttpHeaders();
-    headers.append("Access-Control-Allow-Origin", "*");
-    return this.http.get<Coin[]>("https://api.wazirx.com/api/v2/tickers", {headers:headers}).pipe(first(), map(res=> {
+    headers.append("Access-Control-Allow-Origin", "https://wazirx.com");
+    return this.http.get<Coin[]>("api/v2/tickers", {headers:headers}).pipe(first(), map(res=> {
       return Object.values(res)
     }));
   }
 
   SendMessage(text: string){
     let headers = new HttpHeaders();
-    headers.append("Access-Control-Allow-Origin", "*");
+    headers.append("Access-Control-Allow-Origin", "https://wazirx.com");
     this.http.get("sendMessage?chat_id=-1001711739464&text="+text+"&parse_mode=html", {headers : headers}).pipe(first()).subscribe();
   }
 }
