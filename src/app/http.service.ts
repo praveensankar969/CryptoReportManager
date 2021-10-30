@@ -11,7 +11,9 @@ export class HttpService {
   constructor(private http: HttpClient) { }
   
   GetAllTickers(){
-    return this.http.get<Coin[]>("https://api.wazirx.com/api/v2/tickers").pipe(first(), map(res=> {
+    let headers = new HttpHeaders();
+    headers.append("Access-Control-Allow-Origin", "*");
+    return this.http.get<Coin[]>("https://api.wazirx.com/api/v2/tickers", {headers:headers}).pipe(first(), map(res=> {
       return Object.values(res)
     }));
   }
