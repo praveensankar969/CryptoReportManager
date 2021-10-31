@@ -1,7 +1,0 @@
-{
-  "name": "Crypto Reporter",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "angular"
-}

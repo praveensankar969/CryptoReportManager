@@ -68,12 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "MarketReporter:build:production",
-              "proxyConfig" : "proxy.conf.json"
+              "browserTarget": "MarketReporter:build:production"
             },
             "development": {
-              "browserTarget": "MarketReporter:build:development",
-              "proxyConfig" : "proxy.conf.json"
+              "browserTarget": "MarketReporter:build:development"
             }
           },
           "defaultConfiguration": "development"
