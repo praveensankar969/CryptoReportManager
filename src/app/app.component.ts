@@ -3,7 +3,8 @@ import { HttpService } from './http.service';
 import { Coin } from './Models/Ticker';
 import { interval } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
-
+declare var device;
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,9 +14,14 @@ export class AppComponent {
   
   priceDetailsHistory : Coin[]=[];
   priceDetails: Coin[] = [];
-  constructor(private service: HttpService){}
+  
+  constructor(private service: HttpService, private backgroundMode: BackgroundMode){}
 
   ngOnInit(): void {
+    document.addEventListener("deviceready", function() {
+      alert(device.platform);
+      }, false);
+      this.backgroundMode.enable();
    this.Fetch();
   }
 
@@ -42,7 +48,7 @@ export class AppComponent {
     for(let i=0; i<prevValue.length;i++){
       if(parseInt(currentValue[i].last) > parseInt(prevValue[i].last)){
         let change = (parseInt(currentValue[i].last)-parseInt(prevValue[i].last))/100;
-        if(change > 5){
+        if(change > 5 && parseInt(currentValue[i].last) < 1000){
           let message="";
           if(change >= 10){
             message = "<strong>Spike</strong> in "+ currentValue[i].base_unit + ", Previous was: <strong>"+prevValue[i].last +"</strong> and Current is: <strong>"+currentValue[i].last+"</strong>";
