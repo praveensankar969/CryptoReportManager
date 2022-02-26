@@ -2,7 +2,7 @@ import { Component, SimpleChanges } from '@angular/core';
 import { HttpService } from './http.service';
 import { Coin } from './Models/Ticker';
 import { interval } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { first, takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +10,7 @@ import { takeWhile } from 'rxjs/operators';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
-  priceDetailsHistory : Coin[]=[];
+ 
   priceDetails: Coin[] = [];
   constructor(private service: HttpService){}
 
@@ -23,31 +22,42 @@ export class AppComponent {
     this.service.GetAllTickers().subscribe(res=> {
       console.log(res)
       this.priceDetails = res;
-      this.priceDetailsHistory = this.priceDetails;
+      localStorage.setItem("Initial", JSON.stringify(this.priceDetails));
      });
-    
-     interval(60000)
+    interval(5000)
     .pipe(takeWhile(() => true))
     .subscribe(() => {
-      this.service.GetAllTickers().subscribe(res=> {
+      this.service.GetAllTickers().pipe(first()).subscribe(res=> {
         this.priceDetails = res;
-        this.Compare(this.priceDetailsHistory, this.priceDetails);
-        this.priceDetailsHistory = this.priceDetails;
+        this.Compare(this.priceDetails);
        });
     });
     
   }
 
-  Compare(prevValue:Coin[], currentValue: Coin[]){
-    for(let i=0; i<prevValue.length;i++){
-      if(parseInt(currentValue[i].last) > parseInt(prevValue[i].last)){
-        let change = (parseInt(currentValue[i].last)-parseInt(prevValue[i].last))/100;
+  Reset(){
+    localStorage.clear();
+    this.service.GetAllTickers().subscribe(res=> {
+      console.log(res)
+      this.priceDetails = res;
+      localStorage.setItem("Initial", JSON.stringify(this.priceDetails));
+     });
+  }
+
+  Compare(currentValue: Coin[]){
+    let val = ""
+    val = val + localStorage.getItem("Initial")
+    let intialValues : Coin[] = JSON.parse(val);
+    for(let i=0; i<intialValues.length;i++){
+      if(parseInt(currentValue[i].last) > parseInt(intialValues[i].last) && parseInt(currentValue[i].last) < 1000){
+        let change = (parseInt(currentValue[i].last)-parseInt(intialValues[i].last))/100;
+        console.log(change)
         if(change > 5){
           let message="";
           if(change >= 10){
-            message = "<strong>Spike</strong> in "+ currentValue[i].base_unit + ", Previous was: <strong>"+prevValue[i].last +"</strong> and Current is: <strong>"+currentValue[i].last+"</strong>";
+            message = "<strong>Spike</strong> in "+ currentValue[i].base_unit + ", Previous was: <strong>"+intialValues[i].last +"</strong> and Current is: <strong>"+currentValue[i].last+"</strong>";
           }else{
-            message = "Change in "+  currentValue[i].base_unit + ", Previous was: <strong>"+prevValue[i].last +"</strong> and Current is: <strong>"+currentValue[i].last+"</strong>";
+            message = "Change in "+  currentValue[i].base_unit + ", Previous was: <strong>"+intialValues[i].last +"</strong> and Current is: <strong>"+currentValue[i].last+"</strong>";
           }
           this.service.SendMessage(message);
         }

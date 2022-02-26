@@ -1,4 +1,4 @@
-export interface Coin {
+export class Coin {
     base_unit: string;
     quote_unit: string;
     low: string;
