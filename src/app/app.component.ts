@@ -12,9 +12,11 @@ import { first, takeWhile } from 'rxjs/operators';
 export class AppComponent {
  
   priceDetails: Coin[] = [];
+  
   constructor(private service: HttpService){}
 
   ngOnInit(): void {
+
    this.Fetch();
   }
 
